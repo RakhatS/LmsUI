@@ -1,0 +1,115 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <h3>Registration</h3>
+    </div>
+
+    <!-- Login Form -->
+    <form (submit)="submit()">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input (change)="emailIsExistFoo()" class="fadeIn second"  lass="form-control" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" (keydown.space)="$event.preventDefault()" [(ngModel)]="account.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input class="fadeIn second" (keydown.space)="$event.preventDefault()" [(ngModel)]="account.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="form-group">
+        <section>
+            <form #f="ngForm">
+                <label for="exampleFormControlSelect1">Role select:</label>
+              <select class="form-control" [(ngModel)]="selected" name="valueCheck"
+                (change)="valueChange($event)"  id="exampleFormControlSelect1">
+            
+                <option *ngFor="let role of roles" 
+                 [value]="role" [selected]="role == selected">
+                  {{ role }}
+                </option>
+              </select>
+            </form>
+            
+          </section>
+      </div>
+      <div *ngIf="role == 0">
+        <label for="s_name">Surname: </label>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="tutor.surname" id="s_name" type="text" placeholder="Surname" [ngModelOptions]="{standalone: true}"/>
+        <br/>
+        <label for="f_name">Name: </label>
+        <br/>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="tutor.name" id="f_name" type="text" placeholder="Name" [ngModelOptions]="{standalone: true}"/>
+        <br/>
+        <label for="pat">Patronymic: </label>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="tutor.patronymic" id="pat" type="text" placeholder="Patronymic" [ngModelOptions]="{standalone: true}"/>
+        <br/>
+        <label for="exampleFormControlSelect12">School select: </label>
+        <select class="form-control" [(ngModel)]="select_School_Tutor" name="valueSchool"
+          (change)="valueChangeSchoolTutor($event)"  id="exampleFormControlSelect12">
+      
+          <option *ngFor="let school of schools" 
+           [value]="school.id" [selected]="select_School_Tutor == school.id">
+            {{ school.name }}
+          </option>
+        </select>
+        <br>
+        <label for="selectSubjects">Subject select: </label>
+        <select class="form-control" [(ngModel)]="select_Tutor_Subject" name="valueSubjectTutor"
+         id="selectSubjects" (change)="valueChangeSubjectTutor($event)" >
+          <option *ngFor="let subject of subjectList" 
+           [value]="subject.id" [selected]="select_Tutor_Subject == subject.id">
+            {{ subject.name }}
+          </option>
+        </select>
+        
+      </div>
+      <div *ngIf="role == 1">
+        <br>
+        <label for="s_name">Surname: </label>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="student.surname" id="s_name" type="text" placeholder="Surname" [ngModelOptions]="{standalone: true}"/>
+        <br/>
+        <label for="f_name">Name: </label>
+        <br/>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="student.name" id="f_name" type="text" placeholder="Name" [ngModelOptions]="{standalone: true}"/>
+        <br/>
+        <label for="pat">Patronymic: </label>
+        <input (keydown.space)="$event.preventDefault()" [(ngModel)]="student.patronymic" id="pat" type="text" placeholder="Patronymic" [ngModelOptions]="{standalone: true}"/>
+          <br>
+          <label for="exampleFormControlSelect13">School select: </label>
+          <br>
+        <select class="form-control" [(ngModel)]="select_School_Student" name="valueStudentSchool"
+          (change)="valueChangeSchoolStudent($event)"  id="exampleFormControlSelect13">
+      
+          <option *ngFor="let school of schools" 
+           [value]="school.id" [selected]="select_School_Student == school.id">
+            {{ school.name }}
+          </option>
+        </select>
+        <div *ngIf="getSchoolById() != undefined">
+          <br>
+          <label for="exampleFormControlSelect14">Class select: </label>
+          <select class="form-control" [(ngModel)]="select_class" name="valueClass"
+          (change)="valueChangeClass($event)"  id="exampleFormControlSelect14">
+      
+          <option *ngFor="let class of getSchoolById()?.classes" 
+           [value]="class.id" [selected]="select_class == class.id">
+            {{ class.number }}{{ class.seria}}
+          </option>
+        </select>
+        </div>
+      </div>
+      <div *ngIf="isError" class="alert alert-danger" role="alert">
+        {{ errorText}}
+      </div>
+      <input  type="submit" class="btn btn-primary"  type= "submit">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a style="color: black;" class="underlineHover">Do you already have an account?</a>
+      <a [routerLink]="'/login'"> Login</a>
+    </div>
+
+  </div>
+</div>

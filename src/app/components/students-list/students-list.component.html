@@ -1,0 +1,39 @@
+<div class="form-group">
+    <input [(ngModel)]="search" type="search" class="form-control" id="exampleInputSearch" aria-describedby="searchH" placeholder="Search">
+    <input [(ngModel)]="filterClass" type="number" class="form-control" min="0" max="11" style="width: 70px;">
+</div>
+<div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Name</th>
+            <th scope="col">Patronymic</th>
+            <th scope="col">School</th>
+            <th scope="col">Class</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of getStudents() | paginate: {
+            itemsPerPage: tableSize,
+            currentPage: page,
+            totalItems: count
+          };  let i = index; ">  
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ student.surname }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.patronymic }}</td>
+            <td>{{ student.school?.name }}</td>
+            <td>{{ student.class?.number }}{{ student.class?.seria }}</td>
+          </tr>
+         
+        </tbody>
+      </table>
+      <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      (pageChange)="onTableDataChange($event)"
+    >
+    </pagination-controls>
+</div>

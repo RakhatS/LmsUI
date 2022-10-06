@@ -1,0 +1,8 @@
+<div> 
+    <div *ngIf="student != null">
+      <app-student [email]="account.email" [student]="student" [class]="class" [school]="school"></app-student>        
+    </div>
+    <div *ngIf="tutor != null">
+        <app-tutor [email]="account.email" [tutor]="tutor" [school]="school"></app-tutor>
+    </div>
+</div>

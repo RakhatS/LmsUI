@@ -1,0 +1,153 @@
+<a class="btn btn-primary" (click)="openAddSubject = !openAddSubject">Create subject</a>
+<form *ngIf="openAddSubject">
+  <label>Subject name:</label>
+  <input class="fadeIn second" [(ngModel)]="newSubject.name" (keydown.space)="$event.preventDefault()"  type="text" class="form-control"   [ngModelOptions]="{standalone: true}">
+  <button (click)="createSubject()" type="submit" class="btn btn-primary">Create</button>
+  <br>
+  <div *ngIf="isErrorCreateSubject" class="alert alert-danger" role="alert">
+    {{ isErrorCreateSubjectText }}
+  </div>
+</form>
+<hr>
+<br>
+
+<a class="btn btn-primary" (click)="openAddSchool = !openAddSchool">Create school</a>
+<form *ngIf="openAddSchool">
+  <label>School name:</label>
+  <input class="fadeIn second" [(ngModel)]="newSchool.name" (keydown.space)="$event.preventDefault()"  type="text" class="form-control"   [ngModelOptions]="{standalone: true}">
+  <button (click)="createSchool()" type="submit" class="btn btn-primary">Create</button>
+  <br>
+  <div *ngIf="isErrorCreateSchool" class="alert alert-danger" role="alert">
+    {{ isErrorCreateSchoolText }}
+  </div>
+</form>
+<hr>
+<br>
+
+<a class="btn btn-primary" (click)="openCreateClass = !openCreateClass">Create class</a>
+<form *ngIf="openCreateClass"> 
+    <div class="form-group" >
+      <label for="exampleInputEmail1">Number:</label>
+      <input [(ngModel)]="cl.number" type="number" min="1" max="11" value="1" [ngModelOptions]="{standalone: true}">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Seria:</label>
+        <input maxlength="1" [(ngModel)]="cl.seria" type="text" placeholder="A" [ngModelOptions]="{standalone: true}">
+    </div>
+    <label for="exampleFormControlSelect12">School select: </label>
+        <select class="form-control" [(ngModel)]="select_Class_School" name="valueSchool"
+          (change)="valueChangeSchool($event)"  id="exampleFormControlSelect12">
+      
+          <option *ngFor="let school of schools" 
+           [value]="school.id" [selected]="select_Class_School == school.id">
+            {{ school.name }}
+          </option>
+        </select>
+        <br>
+        <div *ngIf="isErrorCreateClass" class="alert alert-danger" role="alert">
+            {{ isErrorCreateClassText }}
+          </div>
+    <button (click)="createClass()" type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<hr>
+<br>
+<a class="btn btn-primary" (click)="openAddSubjectForClass = !openAddSubjectForClass">Add Subject to class</a>
+<form *ngIf="openAddSubjectForClass"> 
+  <label for="select_s_t_cl_school_id">School select: </label>
+  <select class="form-control" [(ngModel)]="select_t_s_cl_School" name="valueSchool1"
+    (change)="valueChangeT_S_ClSchool($event)"  id="select_s_t_cl_school_id">
+
+    <option *ngFor="let school of schools" 
+     [value]="school.id" [selected]="select_t_s_cl_School == school.id">
+      {{ school.name }}
+    </option>
+  </select>
+  <br>
+  <label  for="select_s_t_cl_id">Class select: </label>
+  <select  class="form-control" [(ngModel)]="t_s_cl.classId" name="valueCl"
+    (change)="valueChangeT_S_Class($event)"  id="select_s_t_cl_id">
+    <option *ngFor="let cl of getSchoolClasses()" 
+     [value]="cl.id" [selected]="t_s_cl.classId == cl.id" >
+      {{ cl.number }}{{ cl.seria }}
+    </option>
+  </select>
+  <br>
+  <label  for="select_sub">Subject select: </label>
+  <select  class="form-control" [(ngModel)]="t_s_cl.subjectId" name="valueSubjects"
+    (change)="valueChangeSubjects($event)"  id="select_sub">
+    <option *ngFor="let sub of subjectsList" 
+     [value]="sub.id" [selected]="t_s_cl.subjectId == sub.id" >
+      {{ sub.name }}
+    </option>
+  </select>
+  <br>
+  <div *ngIf="getTutorBySchoolAndSubject()">
+  <label for="select_tut">Tutor select: </label>
+  <select  class="form-control" [(ngModel)]="t_s_cl.tutorId" name="valueTutors"
+    (change)="valueChangeTutor($event)"  id="select_tut">
+    <option *ngFor="let tut of getTutorBySchoolAndSubject()" 
+     [value]="tut.id" [selected]="t_s_cl.tutorId == tut.id" >
+      {{ tut.surname }} {{ tut.name }} {{ tut.patronymic }}
+    </option>
+  </select>
+  </div>
+  <br>
+  <div *ngIf="isErrorCreateTutSubClass" class="alert alert-danger" role="alert">
+    {{ isErrorCreateTutSubClassText }}
+  </div>
+<button (click)="createTutorSubClass()" type="submit" class="btn btn-primary">Create</button>
+</form>
+
+
+<hr>
+<hr>
+<button (click)="isOpenStudentsList = !isOpenStudentsList" (click)="getAccountsList()" type="button" class="btn btn-outline-primary btn-lg btn-block container">Accounts</button>
+<div *ngIf="isOpenStudentsList">
+  <div class="form-group">
+    <input [(ngModel)]="search" type="search" class="form-control" id="exampleInputSearch" aria-describedby="searchH" placeholder="Search">
+    <br>
+    <label  for="search_role">Role select: </label>
+    <select  class="form-control" [(ngModel)]="searchRole" name="valueSearchRole"
+      (change)="valueChangeRoleSearch($event)"  id="search_role">
+      <option [selected]="searchRole == -1" [value]="-1"></option>
+        <option [selected]="searchRole == 0" [value]="0">Tutor</option>
+        <option [selected]="searchRole == 1"[value]="1">Student</option>
+        <option [selected]="searchRole == 2" [value]="2">Admin</option>
+    </select>
+    <br>
+  </div>
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Id</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of getAccounts() | paginate: {
+          itemsPerPage: tableSize,
+          currentPage: page,
+          totalItems: count
+        };  let i = index; ">  
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ account.id }}</td>
+          <td>{{ account.email }}</td>
+        
+          <td *ngIf="account.roles[0] == 0">Tutor</td>
+          <td *ngIf="account.roles[0] == 1">Student</td>
+          <td *ngIf="account.roles[0] == 2">Admin</td>
+          <!-- <a>Edit</a> -->
+        </tr>
+       
+      </tbody>
+    </table>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+  >
+  </pagination-controls>
+</div>

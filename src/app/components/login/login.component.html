@@ -1,0 +1,27 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <h3>Login</h3>
+    </div>
+
+    <!-- Login Form -->
+    <form>
+      <input type="text" id="login" class="fadeIn second" name="login" [(ngModel)]="loginAcc.email" placeholder="a@gmail.com" [ngModelOptions]="{standalone: true}">
+      <input type="text" id="password" class="fadeIn third" name="login" [(ngModel)]="loginAcc.password" placeholder="password" [ngModelOptions]="{standalone: true}">
+      <div *ngIf="isError" class="alert alert-danger" role="alert">
+        {{ errorText}}
+      </div>
+      <input type="submit" class="fadeIn fourth" value="Log In" (click)="login()">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a style="color: black;" class="underlineHover">Don't have an account?</a>
+      <a [routerLink]="'/registration'"> Sigh Up</a>
+    </div>
+
+  </div>
+</div>

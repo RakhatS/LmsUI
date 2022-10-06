@@ -1,0 +1,35 @@
+<div>
+    <h4>Subject name: {{ subject.subject?.name }}</h4>
+    <a>Class: {{ subject.class?.number }} {{ subject.class?.seria }}</a>
+    <br>
+    <a>Tutor: {{ tutorName }} </a>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Student</th>
+          
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ student.surname }} {{ student.name }} {{ student.patronymic }}</td>
+                <td> 
+             
+                  <div class="row">
+                    <div *ngFor="let gra of student.grades;" class="col-sm">
+                        <input  style="width: 35px;" type="number" [(ngModel)] = "gra.score" max="100" min="0" >
+                    </div> 
+                  </div>
+                 </td> 
+               
+              </tr>
+            </tbody>
+          </table>  
+          <button (click)="save()" type="button" class="btn btn-success">Save</button>
+    </div>
+</div>             
+  
