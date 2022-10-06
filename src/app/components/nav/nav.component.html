@@ -12,6 +12,9 @@
         <li *ngIf="authenticated" class="nav-item">
           <a class="nav-link" [routerLink]="'myprofile'">Profile</a>
       </li>
+      <li *ngIf="isAdmin" class="nav-item">
+        <a class="nav-link" [routerLink]="'admin-panel'">Admin</a>
+    </li>
         <li *ngIf="accessLogin" class="nav-item">
           <a class="nav-link" [routerLink]="'login'">Login</a>
         </li>

@@ -7,6 +7,7 @@ import { Token } from '../models/token';
 import { HttpClient, HttpHeaders, HttpRequest } from "@angular/common/http";
 import { TokenService } from './token.service';
 import { Account } from '../models/account';
+import { Emitters } from '../emitters/emitters';
 
 
 
@@ -29,7 +30,10 @@ export class AuthService {
       email,password
     }).pipe(
         tap(token => {
-          this.tokenService.setToken(token.access_token);      
+          this.tokenService.setToken(token.access_token);
+          if(this.jwtHelper.decodeToken(this.tokenService.getToken()!).role == 'Admin'){
+            Emitters.isAdminEmitter.emit(true);
+          }      
         })
     )
   }
@@ -41,6 +45,7 @@ export class AuthService {
   }
   logout(): void{
     this.tokenService.removeToken();
+    Emitters.isAdminEmitter.emit(false);
     this.router.navigate(['']);
   }
 

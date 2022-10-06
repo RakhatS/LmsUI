@@ -5,6 +5,8 @@ import { Login } from 'src/app/models/login';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavComponent } from '../nav/nav.component';
 import { Emitters } from 'src/app/emitters/emitters';
+import { TokenService } from 'src/app/services/token.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private as: AuthService
-    , private router: Router){
+    , private router: Router,
+    private tokenService: TokenService,
+    private jwtHelper: JwtHelperService){
   
   }
 
@@ -46,6 +50,7 @@ export class LoginComponent implements OnInit {
     .subscribe(res =>{
       this.router.navigate(['myprofile']);
       Emitters.authEmitter.emit(true);
+      
     },error =>{
       this.isError = true;
       this.errorText = 'Wrong login or password';

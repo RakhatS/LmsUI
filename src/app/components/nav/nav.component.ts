@@ -14,6 +14,8 @@ export class NavComponent implements OnInit {
   accessRegistration = !this.authService.isAuthenticated();
   accessLogin = !this.authService.isAuthenticated();
 
+  isAdmin = false;
+
   constructor(private authService: AuthService) { 
   
   }
@@ -25,6 +27,11 @@ export class NavComponent implements OnInit {
         this.authenticated = auth;
         this.accessRegistration = !auth;
         this.accessLogin = !auth;
+      }
+    );
+    Emitters.isAdminEmitter.subscribe(
+      (admin:boolean)=>{
+        this.isAdmin = admin;
       }
     );
 
